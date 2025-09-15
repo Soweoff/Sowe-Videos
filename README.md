@@ -1,2 +1,1 @@
-# Sowe-Videos
-POO projeto de edição de vídeos gerenciamento
+Este projeto é para gerenciamento de vendas de carros.

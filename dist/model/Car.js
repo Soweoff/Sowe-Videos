@@ -1,0 +1,12 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const Vehicle_1 = __importDefault(require("./Vehicle"));
+class Car extends Vehicle_1.default {
+    constructor(model, year, price) {
+        super(model, year, price);
+    }
+}
+exports.default = Car;
