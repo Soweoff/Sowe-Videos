@@ -1,5 +1,3 @@
-// src/service/CompraService.ts
-
 import Cliente from "../model/Client";
 import Projeto from "../model/Projet";
 import Database from "../db/Database";

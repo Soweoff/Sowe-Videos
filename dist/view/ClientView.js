@@ -35,7 +35,6 @@ class ClientView {
     registerNewClient() {
         const name = this.prompt("Nome do cliente: ");
         const email = this.prompt("Email do cliente: ");
-        // Chama o método no MainController para cadastrar o cliente
         this.mainController.processarCadastroCliente(name, email);
     }
 }

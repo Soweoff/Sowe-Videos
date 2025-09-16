@@ -6,11 +6,11 @@ class Database {
     projetosDB = [];
     insertNewCliente(cliente) {
         this.clientesDB.push(cliente);
-        console.log(`Cliente ${cliente.nome} inserido no banco.`);
+        console.log(`Cliente ${cliente.name} inserido no banco.`);
     }
     insertNewProjeto(projeto) {
         this.projetosDB.push(projeto);
-        console.log(`Projeto ${projeto.nome} inserido no banco.`);
+        console.log(`Projeto ${projeto.name} inserido no banco.`);
     }
     getAllClientes() {
         return this.clientesDB;

@@ -1,26 +1,34 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-// src/model/Cliente.ts
-class Cliente {
-    id;
-    nome;
-    email;
-    projetosComprados; // Nova propriedade para contar os projetos
-    constructor(id, nome, email) {
-        this.id = id;
-        this.nome = nome;
-        this.email = email;
-        this.projetosComprados = 0;
+const Person_1 = __importDefault(require("./Person"));
+class Client extends Person_1.default {
+    quant_proj_comprados;
+    projetos_comprados;
+    cpf;
+    constructor(cpf, email) {
+        super(email);
+        this.cpf = cpf;
     }
-    adicionarProjetoComprado() {
-        this.projetosComprados++;
-        console.log(`Cliente "${this.nome}" agora tem ${this.projetosComprados} projetos comprados.`);
+    getCpf() {
+        return this.cpf;
     }
-    podeResgatarRecompensa() {
-        return this.projetosComprados >= 10;
+    setCpf(cpf) {
+        this.cpf = cpf;
     }
-    resetarContagemProjetos() {
-        this.projetosComprados = 0;
+    getQuant_proj_comprados() {
+        return this.quant_proj_comprados;
+    }
+    setQuant_proj_comprados(quant_proj_comprados) {
+        this.quant_proj_comprados = quant_proj_comprados;
+    }
+    getProjetos_comprados() {
+        return this.projetos_comprados;
+    }
+    setProjetos_comprados(projetos_comprados) {
+        this.projetos_comprados = projetos_comprados;
     }
 }
-exports.default = Cliente;
+exports.default = Client;

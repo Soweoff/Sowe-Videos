@@ -10,12 +10,12 @@ export default class Database {
 
     public insertNewCliente(cliente: Cliente) {
         this.clientesDB.push(cliente);
-        console.log(`Cliente ${cliente.nome} inserido no banco.`);
+        console.log(`Cliente ${cliente.name} inserido no banco.`);
     }
 
     public insertNewProjeto(projeto: Projeto) {
         this.projetosDB.push(projeto);
-        console.log(`Projeto ${projeto.nome} inserido no banco.`);
+        console.log(`Projeto ${projeto.name} inserido no banco.`);
     }
 
     public getAllClientes(): Cliente[] {

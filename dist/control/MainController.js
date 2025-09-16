@@ -38,14 +38,12 @@ class MainController {
             });
         }
     }
-    // **Torne este método público**
     processarCadastroCliente(name, email) {
         const idCliente = this.database.getAllClientes().length + 1;
         const newClient = new Client_1.default(idCliente, name, email);
         this.database.insertNewCliente(newClient);
         console.log(`Cliente ${name} cadastrado com sucesso.`);
     }
-    // **Torne este método público**
     viewAllClients() {
         const clientes = this.database.getAllClientes();
         console.log("\n--- Clientes Cadastrados ---");

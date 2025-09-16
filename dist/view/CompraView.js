@@ -33,7 +33,6 @@ class CompraView {
         const clientName = this.prompt("Digite o nome do cliente: ");
         const projectName = this.prompt("Digite o nome do projeto: ");
         const projectPrice = parseFloat(this.prompt("Digite o valor do projeto: "));
-        // Chama o método processarCompra no MainController
         this.mainController.processarCompra(clientName, projectName, projectPrice.toString());
     }
 }

@@ -1,29 +1,37 @@
-// src/model/Cliente.ts
-export default class Cliente {
-  id: number;
-  nome: string;
-  email: string;
-  projetosComprados: number;
+import Person from "./Person";
 
-  constructor(id: number, nome: string, email: string) {
-    this.id = id;
-    this.nome = nome;
-    this.email = email;
-    this.projetosComprados = 0; 
-  }
+export default class Client extends Person{
+
+    private quant_proj_comprados!: number;
+    private projetos_comprados!: number;
+    private cpf: number;
+
+    constructor(cpf: number, email: string){
+      super(email) 
+      this.cpf = cpf;
+    }
+
+    public getCpf():number {
+        return this.cpf;
+    }
+
+    public setCpf(cpf: number): void {
+      this.cpf = cpf;
+    }
+
+    public getQuant_proj_comprados(): number{
+        return this.quant_proj_comprados;
+    }
+    public setQuant_proj_comprados(quant_proj_comprados: number): void{
+       this.quant_proj_comprados = quant_proj_comprados;
+    }
+
+      public getProjetos_comprados(): number{
+        return this.projetos_comprados;
+    }
+    public setProjetos_comprados(projetos_comprados: number): void{
+       this.projetos_comprados= projetos_comprados;
+    }
 
 
-  public adicionarProjetoComprado(): void {
-    this.projetosComprados++;
-    console.log(`Cliente "${this.nome}" agora tem ${this.projetosComprados} projetos comprados.`);
-  }
-
-  public podeResgatarRecompensa(): boolean {
-    return this.projetosComprados >= 10;
-  }
-  
-
-  public resetarContagemProjetos(): void {
-    this.projetosComprados = 0;
-  }
 }
