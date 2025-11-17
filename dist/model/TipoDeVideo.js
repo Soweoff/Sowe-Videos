@@ -1,26 +1,40 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class Projeto {
+class TipoDeVideo {
     name;
     preco_base;
     duracao_maxima;
-    setName(name) {
+    tipo;
+    constructor(name, preco_base, duracao_maxima, tipo) {
         this.name = name;
+        this.preco_base = preco_base;
+        this.duracao_maxima = duracao_maxima;
+        this.tipo = tipo;
     }
+    // Getters e Setters
     getName() {
         return this.name;
     }
-    setPreco_base(preco_base) {
-        this.preco_base = preco_base;
+    setName(name) {
+        this.name = name;
     }
-    getPreco_base() {
+    getPrecoBase() {
         return this.preco_base;
     }
-    setDuracao_maxima(duracao_maxima) {
-        this.duracao_maxima = duracao_maxima;
+    setPrecoBase(preco_base) {
+        this.preco_base = preco_base;
     }
-    getDuracao_maxima() {
+    getDuracaoMaxima() {
         return this.duracao_maxima;
     }
+    setDuracaoMaxima(duracao_maxima) {
+        this.duracao_maxima = duracao_maxima;
+    }
+    getTipo() {
+        return this.tipo;
+    }
+    setTipo(tipo) {
+        this.tipo = tipo;
+    }
 }
-exports.default = Projeto;
+exports.default = TipoDeVideo;

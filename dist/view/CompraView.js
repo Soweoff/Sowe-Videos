@@ -15,7 +15,12 @@ class CompraView {
     mainMenu() {
         let continues = true;
         while (continues) {
-            const choice = parseInt(this.prompt("Escolha\n1. Cadastrar Compra\n2. Sair\n"));
+            const input = this.prompt("Escolha\n1. Cadastrar Compra\n2. Sair\nEscolha: ");
+            const choice = parseInt(input);
+            if (isNaN(choice)) {
+                console.log("Entrada inválida, digite um número.");
+                continue;
+            }
             switch (choice) {
                 case 1:
                     this.registerPurchase();
@@ -32,8 +37,13 @@ class CompraView {
     registerPurchase() {
         const clientName = this.prompt("Digite o nome do cliente: ");
         const projectName = this.prompt("Digite o nome do projeto: ");
-        const projectPrice = parseFloat(this.prompt("Digite o valor do projeto: "));
-        this.mainController.processarCompra(clientName, projectName, projectPrice.toString());
+        const projectPriceInput = this.prompt("Digite o valor do projeto: ");
+        const projectPrice = parseFloat(projectPriceInput);
+        if (isNaN(projectPrice)) {
+            console.log("Valor do projeto inválido. Operação cancelada.");
+            return;
+        }
+        this.mainController.processarCompra(clientName, projectName, projectPrice);
     }
 }
 exports.default = CompraView;

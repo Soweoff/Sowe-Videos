@@ -1,18 +1,18 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const Client_1 = __importDefault(require("./Client"));
 class Projeto {
-    email = email;
-    Client = new Client_1.default(email);
     name;
     tipo_video;
     data_inicial;
     data_final;
     status;
     brinde_recebido;
+    client;
+    editor;
+    constructor(client, editor) {
+        this.client = client;
+        this.editor = editor;
+    }
     setName(name) {
         this.name = name;
     }

@@ -35,7 +35,8 @@ class ClientView {
     registerNewClient() {
         const name = this.prompt("Nome do cliente: ");
         const email = this.prompt("Email do cliente: ");
-        this.mainController.processarCadastroCliente(name, email);
+        const cpf = parseInt(this.prompt("CPF do cliente (somente números): "));
+        this.mainController.processarCadastroCliente(name, email, cpf);
     }
 }
 exports.default = ClientView;

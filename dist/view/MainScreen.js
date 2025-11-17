@@ -17,7 +17,12 @@ class MainScreen {
     mainMenu() {
         let continues = true;
         while (continues) {
-            const choice = parseInt(this.prompt("Escolha\n1. Gerenciar Compras\n2. Gerenciar Clientes\n3. Sair\n"));
+            const input = this.prompt("=== Menu Principal ===\n1. Gerenciar Compras\n2. Gerenciar Clientes\n3. Sair\nEscolha: ");
+            const choice = parseInt(input);
+            if (isNaN(choice)) {
+                console.log("Entrada inválida, digite um número.");
+                continue;
+            }
             switch (choice) {
                 case 1:
                     new CompraView_1.default(this.mainController);

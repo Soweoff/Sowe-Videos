@@ -5,26 +5,50 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 // src/control/MainController.ts
 const Client_1 = __importDefault(require("../model/Client"));
-const Projet_1 = __importDefault(require("../model/Projet"));
+const Project_1 = __importDefault(require("../model/Project"));
+const Editor_1 = __importDefault(require("../model/Editor"));
 const CompraService_1 = __importDefault(require("../service/CompraService"));
 const Database_1 = __importDefault(require("../db/Database"));
 const MainScreen_1 = __importDefault(require("../view/MainScreen"));
+const AppError_1 = __importDefault(require("../errors/AppError"));
 class MainController {
     compraService;
     database;
-    constructor() {
-        this.database = new Database_1.default();
+    constructor(database) {
+        this.database = database || new Database_1.default();
         this.compraService = new CompraService_1.default(this.database);
         new MainScreen_1.default(this);
     }
     processarCompra(clientName, projectName, projectPrice) {
-        const idCliente = this.database.getAllClientes().length + 1;
-        const idProjeto = this.database.getAllProjetos().length + 1;
-        const newCliente = new Client_1.default(idCliente, clientName, `${clientName}@email.com`);
-        const newProjeto = new Projet_1.default(idProjeto, projectName, parseFloat(projectPrice));
-        this.database.insertNewCliente(newCliente);
-        this.database.insertNewProjeto(newProjeto);
-        this.compraService.registrarCompra(newCliente, newProjeto);
+        try {
+            // Validações simples
+            if (!clientName || clientName.trim().length === 0)
+                throw new AppError_1.default("Nome do cliente é obrigatório", 400);
+            if (!projectName || projectName.trim().length === 0)
+                throw new AppError_1.default("Nome do projeto é obrigatório", 400);
+            if (isNaN(projectPrice) || projectPrice < 0)
+                throw new AppError_1.default("Preço do projeto inválido", 400);
+            // Gerar CPF fictício (ou buscar por CPF real em uma UI mais avançada)
+            const cpf = Math.floor(Math.random() * 10000000000);
+            // cria cliente e adiciona ao banco (se já existe, DB cuida da atualização)
+            const newCliente = new Client_1.default(clientName, `${clientName}@email.com`, cpf);
+            this.database.insertNewCliente(newCliente);
+            // Cria editor fictício (pode ser substituído por um real)
+            const editor = new Editor_1.default("Editor Padrão", "editor@example.com", "VFX");
+            // Cria projeto
+            const idProjeto = this.database.getAllProjetos().length + 1;
+            const newProjeto = new Project_1.default(idProjeto, projectName, newCliente, editor, projectPrice);
+            // Registra a compra via service (comtraterror)
+            this.compraService.registrarCompra(newCliente, newProjeto);
+        }
+        catch (err) {
+            if (err instanceof AppError_1.default) {
+                console.error(`Erro: ${err.message}`);
+            }
+            else {
+                console.error("Erro inesperado em processarCompra:", err);
+            }
+        }
     }
     viewSavedProjects() {
         const projetos = this.database.getAllProjetos();
@@ -34,15 +58,19 @@ class MainController {
         }
         else {
             projetos.forEach(proj => {
-                console.log(`ID: ${proj.id}, Nome: ${proj.nome}, Preço: R$${proj.preco}`);
+                console.log(`ID: ${proj.getId()}, Nome: ${proj.getName()}, Preço: R$${proj.getPreco()}`);
             });
         }
     }
-    processarCadastroCliente(name, email) {
-        const idCliente = this.database.getAllClientes().length + 1;
-        const newClient = new Client_1.default(idCliente, name, email);
-        this.database.insertNewCliente(newClient);
-        console.log(`Cliente ${name} cadastrado com sucesso.`);
+    processarCadastroCliente(name, email, cpf) {
+        try {
+            const newClient = new Client_1.default(name, email, cpf);
+            this.database.insertNewCliente(newClient);
+            console.log(`Cliente ${name} cadastrado com sucesso.`);
+        }
+        catch (err) {
+            console.error("Erro ao cadastrar cliente:", err);
+        }
     }
     viewAllClients() {
         const clientes = this.database.getAllClientes();
@@ -52,7 +80,7 @@ class MainController {
         }
         else {
             clientes.forEach(client => {
-                console.log(`ID: ${client.id}, Nome: ${client.nome}, Email: ${client.email}`);
+                console.log(`CPF: ${client.getCpf()}, Nome: ${client.getName()}, Email: ${client.getEmail()}`);
             });
         }
     }

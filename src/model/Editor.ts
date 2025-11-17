@@ -1,21 +1,23 @@
 import Person from "./Person";
+import IShowInfo from "../interfaces/IShowInfo";
 
-export default class Editor extends Person{
+export default class Editor extends Person implements IShowInfo {
+  private expertise: string;
 
-     private expertise : string;
+  constructor(name: string, email: string, expertise: string, telefone: number = 0) {
+    super(name, email, telefone);
+    this.expertise = expertise;
+  }
 
-    constructor(expertise: string,email: string){
-      super(email) 
-      this.expertise = expertise;
+  public getExpertise(): string {
+    return this.expertise;
+  }
 
-    }
+  public setExpertise(expertise: string): void {
+    this.expertise = expertise;
+  }
 
-    public getExpertise(): string {
-      return this.expertise;
-    }
-
-    public setExpertie(expertise:string): void {
-      this.expertise = expertise;
-    }
-
+  public showInfo(): void {
+    console.log(`Editor: ${this.name}, Especialidade: ${this.expertise}, Email: ${this.email}`);
+  }
 }

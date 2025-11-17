@@ -1,10 +1,13 @@
 {
-  "name": "carsales",
+  "name": "sowe-videos",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Este projeto é para recompensas de projetos de edição.",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "keywords": [],
   "author": "",
@@ -13,7 +16,23 @@
     "prompt-sync": "^4.2.0"
   },
   "devDependencies": {
-    "@types/node": "^24.4.0",
-    "@types/prompt-sync": "^4.2.3"
-  }
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.10.1",
+    "@types/prompt-sync": "^4.2.3",
+    "@typescript-eslint/eslint-plugin": "^8.46.4",
+    "@typescript-eslint/parser": "^8.46.4",
+    "eslint": "^9.39.1",
+    "jest": "^30.2.0",
+    "prettier": "^3.6.2",
+    "ts-jest": "^29.4.5",
+    "typescript": "^5.9.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Soweoff/Sowe-Videos.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Soweoff/Sowe-Videos/issues"
+  },
+  "homepage": "https://github.com/Soweoff/Sowe-Videos#readme"
 }

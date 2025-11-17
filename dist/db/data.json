@@ -1,0 +1,28 @@
+{
+  "clientes": [
+    {
+      "name": "emerson",
+      "email": "emerson@gmail.com",
+      "telefone": 0,
+      "cpf": 872131231931,
+      "projetos_comprados": 0
+    },
+    {
+      "name": "emerson",
+      "email": "emerson@email.com",
+      "telefone": 0,
+      "cpf": 8602036846,
+      "projetos_comprados": 1
+    }
+  ],
+  "projetos": [
+    {
+      "id": 1,
+      "name": "emerson teste",
+      "clientCpf": 8602036846,
+      "editorName": "Editor Padrão",
+      "preco": 1500,
+      "ehRecompensa": false
+    }
+  ]
+}

@@ -6,15 +6,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Person_1 = __importDefault(require("./Person"));
 class Editor extends Person_1.default {
     expertise;
-    constructor(expertise, email) {
-        super(email);
+    constructor(name, email, expertise, telefone = 0) {
+        super(name, email, telefone);
         this.expertise = expertise;
     }
     getExpertise() {
         return this.expertise;
     }
-    setExpertie(expertise) {
+    setExpertise(expertise) {
         this.expertise = expertise;
+    }
+    showInfo() {
+        console.log(`Editor: ${this.name}, Especialidade: ${this.expertise}, Email: ${this.email}`);
     }
 }
 exports.default = Editor;

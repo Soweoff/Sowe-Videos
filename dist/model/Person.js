@@ -4,8 +4,10 @@ class Person {
     name;
     email;
     telefone;
-    constructor(email) {
+    constructor(name, email, telefone = 0) {
+        this.name = name;
         this.email = email;
+        this.telefone = telefone;
     }
     getName() {
         return this.name;
