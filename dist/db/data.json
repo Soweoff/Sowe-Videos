@@ -1,18 +1,50 @@
 {
+  "categories": [],
   "clientes": [
     {
       "name": "emerson",
       "email": "emerson@gmail.com",
       "telefone": 0,
       "cpf": 872131231931,
-      "projetos_comprados": 0
+      "projetos_comprados": 0,
+      "totalCompras": 0,
+      "recompensasPendentes": 0
     },
     {
       "name": "emerson",
       "email": "emerson@email.com",
       "telefone": 0,
       "cpf": 8602036846,
-      "projetos_comprados": 1
+      "projetos_comprados": 1,
+      "totalCompras": 1,
+      "recompensasPendentes": 0
+    },
+    {
+      "name": "Everton",
+      "email": "Everton@email.com",
+      "telefone": 0,
+      "cpf": 8657246571,
+      "projetos_comprados": 1,
+      "totalCompras": 1,
+      "recompensasPendentes": 0
+    },
+    {
+      "name": "everton souza",
+      "email": "everton@gmail.com",
+      "telefone": 0,
+      "cpf": 32131221312,
+      "projetos_comprados": 0,
+      "totalCompras": 0,
+      "recompensasPendentes": 0
+    },
+    {
+      "name": "teste 55",
+      "email": "teste55@gmail.com",
+      "telefone": 0,
+      "cpf": 22032033310,
+      "projetos_comprados": 0,
+      "totalCompras": 0,
+      "recompensasPendentes": 0
     }
   ],
   "projetos": [
@@ -23,6 +55,23 @@
       "editorName": "Editor Padrão",
       "preco": 1500,
       "ehRecompensa": false
+    },
+    {
+      "id": 2,
+      "name": "teste 23",
+      "clientCpf": 8657246571,
+      "editorName": "Editor Padrão",
+      "preco": 1500,
+      "ehRecompensa": false
+    }
+  ],
+  "compras": [
+    {
+      "id": 1,
+      "clienteCpf": 8657246571,
+      "projetoId": 2,
+      "data": "2025-11-18T19:07:33.062Z",
+      "isReward": false
     }
   ]
 }

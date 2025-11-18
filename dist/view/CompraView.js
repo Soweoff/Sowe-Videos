@@ -35,7 +35,12 @@ class CompraView {
         }
     }
     registerPurchase() {
-        const clientName = this.prompt("Digite o nome do cliente: ");
+        const cpfInput = this.prompt("CPF do cliente (somente números): ");
+        const clienteCpf = parseInt(cpfInput);
+        if (isNaN(clienteCpf)) {
+            console.log("CPF inválido. Operação cancelada.");
+            return;
+        }
         const projectName = this.prompt("Digite o nome do projeto: ");
         const projectPriceInput = this.prompt("Digite o valor do projeto: ");
         const projectPrice = parseFloat(projectPriceInput);
@@ -43,7 +48,8 @@ class CompraView {
             console.log("Valor do projeto inválido. Operação cancelada.");
             return;
         }
-        this.mainController.processarCompra(clientName, projectName, projectPrice);
+        // chama controller passando o CPF (fluxo A)
+        this.mainController.processarCompra(clienteCpf, projectName, projectPrice);
     }
 }
 exports.default = CompraView;

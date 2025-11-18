@@ -1,11 +1,20 @@
 {
+  "categories": [
+    "Edição Simples",
+    "Trailers",
+    "Motion Graphics",
+    "Legendagem",
+    "Reels / Shorts"
+  ],
   "clientes": [
     {
       "name": "Teste",
       "email": "t@ex.com",
       "telefone": 0,
       "cpf": 999888777,
-      "projetos_comprados": 1
+      "projetos_comprados": 1,
+      "totalCompras": 1,
+      "recompensasPendentes": 0
     }
   ],
   "projetos": [
@@ -18,7 +27,7 @@
       "ehRecompensa": false
     },
     {
-      "id": 999,
+      "id": 998,
       "name": "Test Project",
       "clientCpf": 999888777,
       "editorName": null,
@@ -26,7 +35,7 @@
       "ehRecompensa": false
     },
     {
-      "id": 999,
+      "id": 997,
       "name": "Test Project",
       "clientCpf": 999888777,
       "editorName": null,
@@ -34,7 +43,7 @@
       "ehRecompensa": false
     },
     {
-      "id": 999,
+      "id": 996,
       "name": "Test Project",
       "clientCpf": 999888777,
       "editorName": null,
@@ -42,7 +51,7 @@
       "ehRecompensa": false
     },
     {
-      "id": 999,
+      "id": 995,
       "name": "Test Project",
       "clientCpf": 999888777,
       "editorName": null,
@@ -50,12 +59,21 @@
       "ehRecompensa": false
     },
     {
-      "id": 999,
+      "id": 994,
       "name": "Test Project",
       "clientCpf": 999888777,
       "editorName": null,
       "preco": 50,
       "ehRecompensa": false
+    }
+  ],
+  "compras": [
+    {
+      "id": 1,
+      "clienteCpf": 999888777,
+      "projetoId": 999,
+      "data": "2025-11-18T12:00:00.000Z",
+      "isReward": false
     }
   ]
 }

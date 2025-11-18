@@ -17,29 +17,42 @@ export default class MainController {
     new MainScreen(this);
   }
 
-  public processarCompra(clientName: string, projectName: string, projectPrice: number): void {
+  /**
+   * Agora processarCompra espera o CPF do cliente (digitado pelo usuário).
+   * Fluxo:
+   *  - valida entrada
+   *  - procura cliente por CPF (não cria automaticamente)
+   *  - se não existir, instrui para cadastrar primeiro
+   *  - cria projeto associado ao cliente e registra compra
+   */
+  public processarCompra(clienteCpf: number, projectName: string, projectPrice: number): void {
     try {
-      // Validações simples
-      if (!clientName || clientName.trim().length === 0) throw new AppError("Nome do cliente é obrigatório", 400);
+      if (!clienteCpf || isNaN(clienteCpf)) throw new AppError("CPF do cliente é obrigatório e deve ser numérico", 400);
       if (!projectName || projectName.trim().length === 0) throw new AppError("Nome do projeto é obrigatório", 400);
       if (isNaN(projectPrice) || projectPrice < 0) throw new AppError("Preço do projeto inválido", 400);
 
-      // Gerar CPF fictício (ou buscar por CPF real em uma UI mais avançada)
-      const cpf = Math.floor(Math.random() * 10000000000);
-
-      // cria cliente e adiciona ao banco (se já existe, DB cuida da atualização)
-      const newCliente = new Client(clientName, `${clientName}@email.com`, cpf);
-      this.database.insertNewCliente(newCliente);
+      // buscar cliente existente pelo CPF - NÃO criar cliente novo aqui
+      const cliente = this.database.findClienteByCpf(clienteCpf);
+      if (!cliente) {
+        console.log(`Cliente com CPF ${clienteCpf} não encontrado. Cadastre o cliente primeiro em 'Gerenciar Clientes'.`);
+        return;
+      }
 
       // Cria editor fictício (pode ser substituído por um real)
       const editor = new Editor("Editor Padrão", "editor@example.com", "VFX");
 
-      // Cria projeto
+      // Cria projeto com ID incremental baseado no DB
       const idProjeto = this.database.getAllProjetos().length + 1;
-      const newProjeto = new Projeto(idProjeto, projectName, newCliente, editor, projectPrice);
+      const newProjeto = new Projeto(idProjeto, projectName, cliente, editor, projectPrice);
 
-      // Registra a compra via service (comtraterror)
-      this.compraService.registrarCompra(newCliente, newProjeto);
+      // Registra a compra via service (síncrono, compatível com seu teste)
+      this.compraService.registrarCompra(cliente, newProjeto);
+
+      // Notificar se ganhou recompensa (campo criado no Client durante registrarCompra)
+      const totalCompras = (cliente as any).totalCompras || (cliente.getProjetos_comprados ? cliente.getProjetos_comprados() : 0);
+      if (totalCompras % 5 === 0 && totalCompras > 0) {
+        console.log(`Cliente ${cliente.getCpf()} acabou de ganhar 1 recompensa! Recompensas pendentes: ${(cliente as any).recompensasPendentes || 0}`);
+      }
     } catch (err) {
       if (err instanceof AppError) {
         console.error(`Erro: ${err.message}`);
@@ -78,8 +91,33 @@ export default class MainController {
       console.log("Nenhum cliente foi cadastrado ainda.");
     } else {
       clientes.forEach(client => {
-        console.log(`CPF: ${client.getCpf()}, Nome: ${client.getName()}, Email: ${client.getEmail()}`);
+        const totalCompras = (client as any).totalCompras ?? (client.getProjetos_comprados ? client.getProjetos_comprados() : 0);
+        const recompensas = (client as any).recompensasPendentes ?? 0;
+        console.log(`CPF: ${client.getCpf()}, Nome: ${client.getName()}, Email: ${client.getEmail()}, Compras: ${totalCompras}, Recompensas: ${recompensas}`);
       });
     }
+  }
+
+  // --- Novas ações para recompensa e categorias (compatíveis com CPF-based workflow) ---
+  // agora retorna a lista para uso por Views/Tests
+  public async listarClientesComRecompensa(): Promise<Client[]> {
+    const clientes = this.database.getClientesComRecompensa();
+    return clientes;
+  }
+
+  // agora retorna o cliente atualizado para uso por Views/Tests
+  public async marcarRecompensaComoUsada(clienteCpf: number): Promise<Client | undefined> {
+    try {
+      const clienteAtualizado = this.compraService.usarRecompensaPorCpf(clienteCpf);
+      return clienteAtualizado;
+    } catch (err) {
+      console.error("Erro ao usar recompensa:", (err as Error).message);
+      return undefined;
+    }
+  }
+
+  public adicionarCategoria(nome: string): void {
+    this.database.addCategory(nome);
+    console.log(`Categoria "${nome}" adicionada.`);
   }
 }
