@@ -3,7 +3,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// src/view/CompraView.ts
 const prompt_sync_1 = __importDefault(require("prompt-sync"));
 class CompraView {
     mainController;
@@ -41,6 +40,11 @@ class CompraView {
             console.log("CPF inválido. Operação cancelada.");
             return;
         }
+        const client = this.mainController.findClientByCpf(clienteCpf);
+        if (!client) {
+            console.log("\n Cliente não encontrado. Cadastre o cliente em Gerenciar Clientes.\n");
+            return;
+        }
         const projectName = this.prompt("Digite o nome do projeto: ");
         const projectPriceInput = this.prompt("Digite o valor do projeto: ");
         const projectPrice = parseFloat(projectPriceInput);
@@ -48,7 +52,6 @@ class CompraView {
             console.log("Valor do projeto inválido. Operação cancelada.");
             return;
         }
-        // chama controller passando o CPF (fluxo A)
         this.mainController.processarCompra(clienteCpf, projectName, projectPrice);
     }
 }

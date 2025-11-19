@@ -3,7 +3,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// src/control/MainController.ts
 const Client_1 = __importDefault(require("../model/Client"));
 const Project_1 = __importDefault(require("../model/Project"));
 const Editor_1 = __importDefault(require("../model/Editor"));
@@ -19,14 +18,6 @@ class MainController {
         this.compraService = new CompraService_1.default(this.database);
         new MainScreen_1.default(this);
     }
-    /**
-     * Agora processarCompra espera o CPF do cliente (digitado pelo usuário).
-     * Fluxo:
-     *  - valida entrada
-     *  - procura cliente por CPF (não cria automaticamente)
-     *  - se não existir, instrui para cadastrar primeiro
-     *  - cria projeto associado ao cliente e registra compra
-     */
     processarCompra(clienteCpf, projectName, projectPrice) {
         try {
             if (!clienteCpf || isNaN(clienteCpf))
@@ -35,23 +26,18 @@ class MainController {
                 throw new AppError_1.default("Nome do projeto é obrigatório", 400);
             if (isNaN(projectPrice) || projectPrice < 0)
                 throw new AppError_1.default("Preço do projeto inválido", 400);
-            // buscar cliente existente pelo CPF - NÃO criar cliente novo aqui
             const cliente = this.database.findClienteByCpf(clienteCpf);
             if (!cliente) {
                 console.log(`Cliente com CPF ${clienteCpf} não encontrado. Cadastre o cliente primeiro em 'Gerenciar Clientes'.`);
                 return;
             }
-            // Cria editor fictício (pode ser substituído por um real)
             const editor = new Editor_1.default("Editor Padrão", "editor@example.com", "VFX");
-            // Cria projeto com ID incremental baseado no DB
             const idProjeto = this.database.getAllProjetos().length + 1;
             const newProjeto = new Project_1.default(idProjeto, projectName, cliente, editor, projectPrice);
-            // Registra a compra via service (síncrono, compatível com seu teste)
             this.compraService.registrarCompra(cliente, newProjeto);
-            // Notificar se ganhou recompensa (campo criado no Client durante registrarCompra)
             const totalCompras = cliente.totalCompras || (cliente.getProjetos_comprados ? cliente.getProjetos_comprados() : 0);
             if (totalCompras % 5 === 0 && totalCompras > 0) {
-                console.log(`Cliente ${cliente.getCpf()} acabou de ganhar 1 recompensa! Recompensas pendentes: ${cliente.recompensasPendentes || 0}`);
+                console.log(`Cliente ${cliente.getCpf()} ganhou uma recompensa! Recompensas pendentes: ${cliente.recompensasPendentes || 0}`);
             }
         }
         catch (err) {
@@ -61,18 +47,6 @@ class MainController {
             else {
                 console.error("Erro inesperado em processarCompra:", err);
             }
-        }
-    }
-    viewSavedProjects() {
-        const projetos = this.database.getAllProjetos();
-        console.log("\n--- Projetos Salvos ---");
-        if (projetos.length === 0) {
-            console.log("Nenhum projeto foi salvo ainda.");
-        }
-        else {
-            projetos.forEach(proj => {
-                console.log(`ID: ${proj.getId()}, Nome: ${proj.getName()}, Preço: R$${proj.getPreco()}`);
-            });
         }
     }
     processarCadastroCliente(name, email, cpf) {
@@ -99,14 +73,10 @@ class MainController {
             });
         }
     }
-    // --- Novas ações para recompensa e categorias (compatíveis com CPF-based workflow) ---
-    // agora retorna a lista para uso por Views/Tests
-    async listarClientesComRecompensa() {
-        const clientes = this.database.getClientesComRecompensa();
-        return clientes;
+    listarClientesComRecompensa() {
+        return this.database.getClientesComRecompensa();
     }
-    // agora retorna o cliente atualizado para uso por Views/Tests
-    async marcarRecompensaComoUsada(clienteCpf) {
+    marcarRecompensaComoUsada(clienteCpf) {
         try {
             const clienteAtualizado = this.compraService.usarRecompensaPorCpf(clienteCpf);
             return clienteAtualizado;
@@ -119,6 +89,9 @@ class MainController {
     adicionarCategoria(nome) {
         this.database.addCategory(nome);
         console.log(`Categoria "${nome}" adicionada.`);
+    }
+    findClientByCpf(cpf) {
+        return this.database.findClienteByCpf(cpf);
     }
 }
 exports.default = MainController;

@@ -11,7 +11,6 @@ class Video {
         this.duracao_maxima = duracao_maxima;
         this.tipo = tipo;
     }
-    // Getters e Setters
     getName() {
         return this.name;
     }

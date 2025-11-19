@@ -3,10 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// src/view/MainScreen.ts
 const prompt_sync_1 = __importDefault(require("prompt-sync"));
 const CompraView_1 = __importDefault(require("./CompraView"));
 const ClientView_1 = __importDefault(require("./ClientView"));
+const RewardsView_1 = require("./RewardsView");
 class MainScreen {
     mainController;
     prompt = (0, prompt_sync_1.default)();
@@ -17,7 +17,7 @@ class MainScreen {
     mainMenu() {
         let continues = true;
         while (continues) {
-            const input = this.prompt("=== Menu Principal ===\n1. Gerenciar Compras\n2. Gerenciar Clientes\n3. Sair\nEscolha: ");
+            const input = this.prompt("=== Menu Principal ===\n1. Gerenciar Compras\n2. Gerenciar Clientes\n3. Recompensas\n4. Sair\nEscolha: ");
             const choice = parseInt(input);
             if (isNaN(choice)) {
                 console.log("Entrada inválida, digite um número.");
@@ -31,12 +31,36 @@ class MainScreen {
                     new ClientView_1.default(this.mainController);
                     break;
                 case 3:
+                    this.rewardsMenu();
+                    break;
+                case 4:
                     continues = false;
                     console.log("Sistema encerrado.");
                     break;
                 default:
                     console.log("Opção inválida. Tente novamente.");
                     break;
+            }
+        }
+    }
+    rewardsMenu() {
+        let running = true;
+        while (running) {
+            const option = parseInt(this.prompt("\n=== Recompensas ===\n1. Ver Clientes com Recompensas\n2. Marcar Recompensa como Usada\n3. Voltar\nEscolha: "));
+            switch (option) {
+                case 1:
+                    (0, RewardsView_1.showRewardsMenu)(this.mainController);
+                    break;
+                case 2:
+                    const cpf = parseInt(this.prompt("CPF do cliente: "));
+                    if (isNaN(cpf)) {
+                        console.log("CPF inválido.");
+                        break;
+                    }
+                    (0, RewardsView_1.markRewardPaid)(this.mainController, cpf);
+                    break;
+                case 3:
+                    running = false;
             }
         }
     }

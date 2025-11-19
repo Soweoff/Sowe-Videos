@@ -18,6 +18,6 @@ export default class Editor extends Person implements IShowInfo {
   }
 
   public showInfo(): void {
-    console.log(`Editor: ${this.name}, Especialidade: ${this.expertise}, Email: ${this.email}`);
+    console.log(`Editor: ${this.getName()}, Especialidade: ${this.expertise}, Email: ${this.getEmail()}`);
   }
 }

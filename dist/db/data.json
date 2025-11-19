@@ -24,9 +24,9 @@
       "email": "Everton@email.com",
       "telefone": 0,
       "cpf": 8657246571,
-      "projetos_comprados": 1,
-      "totalCompras": 1,
-      "recompensasPendentes": 0
+      "projetos_comprados": 5,
+      "totalCompras": 5,
+      "recompensasPendentes": 1
     },
     {
       "name": "everton souza",
@@ -44,6 +44,24 @@
       "cpf": 22032033310,
       "projetos_comprados": 0,
       "totalCompras": 0,
+      "recompensasPendentes": 0
+    },
+    {
+      "name": "3",
+      "email": "3",
+      "telefone": 0,
+      "cpf": 1231,
+      "projetos_comprados": 0,
+      "totalCompras": 0,
+      "recompensasPendentes": 0
+    },
+    {
+      "name": "Eva",
+      "email": "eva@gmail.com",
+      "telefone": 0,
+      "cpf": 98721273278,
+      "projetos_comprados": 5,
+      "totalCompras": 5,
       "recompensasPendentes": 0
     }
   ],
@@ -63,6 +81,78 @@
       "editorName": "Editor Padrão",
       "preco": 1500,
       "ehRecompensa": false
+    },
+    {
+      "id": 3,
+      "name": "teste25",
+      "clientCpf": 98721273278,
+      "editorName": "Editor Padrão",
+      "preco": 1200,
+      "ehRecompensa": false
+    },
+    {
+      "id": 4,
+      "name": "test 98",
+      "clientCpf": 98721273278,
+      "editorName": "Editor Padrão",
+      "preco": 9000,
+      "ehRecompensa": false
+    },
+    {
+      "id": 5,
+      "name": "testo",
+      "clientCpf": 98721273278,
+      "editorName": "Editor Padrão",
+      "preco": 124,
+      "ehRecompensa": false
+    },
+    {
+      "id": 6,
+      "name": "teste aleatorio",
+      "clientCpf": 98721273278,
+      "editorName": "Editor Padrão",
+      "preco": 500,
+      "ehRecompensa": false
+    },
+    {
+      "id": 7,
+      "name": "estou testando",
+      "clientCpf": 98721273278,
+      "editorName": "Editor Padrão",
+      "preco": 259,
+      "ehRecompensa": false
+    },
+    {
+      "id": 8,
+      "name": "teste 25",
+      "clientCpf": 8657246571,
+      "editorName": "Editor Padrão",
+      "preco": 6000,
+      "ehRecompensa": false
+    },
+    {
+      "id": 9,
+      "name": "malware",
+      "clientCpf": 8657246571,
+      "editorName": "Editor Padrão",
+      "preco": 250,
+      "ehRecompensa": false
+    },
+    {
+      "id": 10,
+      "name": "lexus",
+      "clientCpf": 8657246571,
+      "editorName": "Editor Padrão",
+      "preco": 400,
+      "ehRecompensa": false
+    },
+    {
+      "id": 11,
+      "name": "ford",
+      "clientCpf": 8657246571,
+      "editorName": "Editor Padrão",
+      "preco": 50000,
+      "ehRecompensa": false
     }
   ],
   "compras": [
@@ -71,6 +161,76 @@
       "clienteCpf": 8657246571,
       "projetoId": 2,
       "data": "2025-11-18T19:07:33.062Z",
+      "isReward": false
+    },
+    {
+      "id": 2,
+      "clienteCpf": 98721273278,
+      "projetoId": 3,
+      "data": "2025-11-18T22:51:15.742Z",
+      "isReward": false
+    },
+    {
+      "id": 3,
+      "clienteCpf": 98721273278,
+      "projetoId": 4,
+      "data": "2025-11-18T22:51:29.645Z",
+      "isReward": false
+    },
+    {
+      "id": 4,
+      "clienteCpf": 98721273278,
+      "projetoId": 5,
+      "data": "2025-11-18T22:51:52.894Z",
+      "isReward": false
+    },
+    {
+      "id": 5,
+      "clienteCpf": 98721273278,
+      "projetoId": 6,
+      "data": "2025-11-18T22:52:11.922Z",
+      "isReward": false
+    },
+    {
+      "id": 6,
+      "clienteCpf": 98721273278,
+      "projetoId": 7,
+      "data": "2025-11-18T22:52:44.750Z",
+      "isReward": false
+    },
+    {
+      "id": 7,
+      "clienteCpf": 98721273278,
+      "projetoId": 0,
+      "data": "2025-11-19T00:32:52.463Z",
+      "isReward": true
+    },
+    {
+      "id": 8,
+      "clienteCpf": 8657246571,
+      "projetoId": 8,
+      "data": "2025-11-19T02:22:35.168Z",
+      "isReward": false
+    },
+    {
+      "id": 9,
+      "clienteCpf": 8657246571,
+      "projetoId": 9,
+      "data": "2025-11-19T02:22:54.876Z",
+      "isReward": false
+    },
+    {
+      "id": 10,
+      "clienteCpf": 8657246571,
+      "projetoId": 10,
+      "data": "2025-11-19T02:23:06.820Z",
+      "isReward": false
+    },
+    {
+      "id": 11,
+      "clienteCpf": 8657246571,
+      "projetoId": 11,
+      "data": "2025-11-19T02:23:19.046Z",
       "isReward": false
     }
   ]

@@ -65,6 +65,30 @@
       "editorName": null,
       "preco": 50,
       "ehRecompensa": false
+    },
+    {
+      "id": 999,
+      "name": "Test Project",
+      "clientCpf": 999888777,
+      "editorName": null,
+      "preco": 50,
+      "ehRecompensa": false
+    },
+    {
+      "id": 999,
+      "name": "Test Project",
+      "clientCpf": 999888777,
+      "editorName": null,
+      "preco": 50,
+      "ehRecompensa": false
+    },
+    {
+      "id": 999,
+      "name": "Test Project",
+      "clientCpf": 999888777,
+      "editorName": null,
+      "preco": 50,
+      "ehRecompensa": false
     }
   ],
   "compras": [
@@ -73,6 +97,27 @@
       "clienteCpf": 999888777,
       "projetoId": 999,
       "data": "2025-11-18T12:00:00.000Z",
+      "isReward": false
+    },
+    {
+      "id": 2,
+      "clienteCpf": 999888777,
+      "projetoId": 999,
+      "data": "2025-11-19T02:09:37.624Z",
+      "isReward": false
+    },
+    {
+      "id": 3,
+      "clienteCpf": 999888777,
+      "projetoId": 999,
+      "data": "2025-11-19T02:16:37.225Z",
+      "isReward": false
+    },
+    {
+      "id": 4,
+      "clienteCpf": 999888777,
+      "projetoId": 999,
+      "data": "2025-11-19T02:21:32.992Z",
       "isReward": false
     }
   ]

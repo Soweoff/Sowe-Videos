@@ -1,4 +1,3 @@
-// src/view/CompraView.ts
 import promptSync from 'prompt-sync';
 import MainController from '../control/MainController';
 
@@ -44,6 +43,12 @@ export default class CompraView {
       return;
     }
 
+    const client = this.mainController.findClientByCpf(clienteCpf);
+    if (!client) {
+      console.log("\n Cliente não encontrado. Cadastre o cliente em Gerenciar Clientes.\n");
+      return;
+    }
+
     const projectName: string = this.prompt("Digite o nome do projeto: ");
     const projectPriceInput: string = this.prompt("Digite o valor do projeto: ");
     const projectPrice: number = parseFloat(projectPriceInput);
@@ -53,7 +58,6 @@ export default class CompraView {
       return;
     }
 
-    // chama controller passando o CPF (fluxo A)
     this.mainController.processarCompra(clienteCpf, projectName, projectPrice);
   }
 }

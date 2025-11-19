@@ -1,4 +1,3 @@
-// src/errors/AppError.ts
 export default class AppError extends Error {
   public readonly statusCode: number;
   constructor(message: string, statusCode = 400) {

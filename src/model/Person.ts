@@ -9,7 +9,7 @@ export default abstract class Person {
     this.telefone = telefone;
   }
 
-    public getName(): string {
+  public getName(): string {
     return this.name;
   }
 
@@ -33,5 +33,5 @@ export default abstract class Person {
     this.telefone = telefone;
   }
 
-   public abstract showInfo(): void;
+  public abstract showInfo(): void;
 }

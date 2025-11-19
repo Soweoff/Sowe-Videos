@@ -3,7 +3,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// src/db/Database.ts
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const Client_1 = __importDefault(require("../model/Client"));
@@ -15,22 +14,15 @@ class Database {
     comprasDB = [];
     categories = [];
     dbFile;
-    constructor() {
+    constructor(dataFile) {
         const dataDir = path_1.default.resolve(__dirname);
-        this.dbFile = path_1.default.join(dataDir, "data.json");
+        this.dbFile = path_1.default.join(dataDir, dataFile || "data.json");
         this.load();
     }
     load() {
         if (!fs_1.default.existsSync(this.dbFile)) {
-            // criar arquivo com estrutura mínima
             const initial = {
-                categories: [
-                    "Edição Simples",
-                    "Trailers",
-                    "Motion Graphics",
-                    "Legendagem",
-                    "Reels / Shorts"
-                ],
+                categories: ["Edição Simples", "Trailers", "Motion Graphics", "Legendagem", "Reels / Shorts"],
                 clientes: [],
                 projetos: [],
                 compras: []
@@ -51,12 +43,7 @@ class Database {
             const projetosPlain = parsed.projetos || [];
             const comprasPlain = parsed.compras || [];
             this.categories = parsed.categories || [];
-            // reconstruir clientes
-            this.clientesDB = clientsPlain.map(cp => {
-                const c = new Client_1.default(cp.name, cp.email, cp.cpf, cp.telefone, cp.projetos_comprados, cp.recompensasPendentes || 0);
-                return c;
-            });
-            // reconstruir projetos (associa cliente por cpf quando possível)
+            this.clientesDB = clientsPlain.map(cp => new Client_1.default(cp.name, cp.email, cp.cpf, cp.telefone, cp.projetos_comprados, cp.recompensasPendentes || 0));
             this.projetosDB = projetosPlain.map(pp => {
                 const client = this.clientesDB.find(c => c.getCpf() === pp.clientCpf) || new Client_1.default("desconhecido", "unknown", pp.clientCpf);
                 const editor = pp.editorName ? new Editor_1.default(pp.editorName, "editor@local", "N/A") : null;
@@ -64,11 +51,9 @@ class Database {
                 p.setEhRecompensa(pp.ehRecompensa || false);
                 return p;
             });
-            // compras
             this.comprasDB = comprasPlain || [];
         }
         catch (err) {
-            // se falhar, garantir DB limpo
             this.clientesDB = [];
             this.projetosDB = [];
             this.comprasDB = [];
@@ -81,9 +66,9 @@ class Database {
             if (c.toPlain)
                 return c.toPlain();
             return {
-                name: c.getName ? c.getName() : c.name,
-                email: c.getEmail ? c.getEmail() : c.email,
-                telefone: c.getTelefone ? c.getTelefone() : 0,
+                name: c.getName(),
+                email: c.getEmail(),
+                telefone: c.getTelefone(),
                 cpf: c.getCpf(),
                 projetos_comprados: c.getProjetos_comprados ? c.getProjetos_comprados() : 0,
                 totalCompras: c.totalCompras || 0,
@@ -106,7 +91,6 @@ class Database {
         };
         fs_1.default.writeFileSync(this.dbFile, JSON.stringify(dump, null, 2), "utf-8");
     }
-    // ---------- Category methods ----------
     getCategories() {
         return this.categories.slice();
     }
@@ -116,25 +100,17 @@ class Database {
             this.save();
         }
     }
-    // ---------- Client methods (CPF-based) ----------
-    insert(cliente) {
-        this.insertNewCliente(cliente);
-    }
     insertNewCliente(cliente) {
         const exists = this.clientesDB.find(c => c.getCpf() === cliente.getCpf());
         if (!exists) {
             this.clientesDB.push(cliente);
             this.save();
-            console.log(`Cliente ${cliente.getName()} inserido no banco.`);
+            return;
         }
-        else {
-            // atualizar dados caso precise
-            exists.setName(cliente.getName());
-            exists.setEmail(cliente.getEmail());
-            exists.setQuant_proj_comprados(cliente.getQuant_proj_comprados());
-            this.save();
-            console.log(`Cliente ${cliente.getName()} atualizado no banco.`);
-        }
+        exists.setName(cliente.getName());
+        exists.setEmail(cliente.getEmail());
+        exists.setQuant_proj_comprados(cliente.getProjetos_comprados ? cliente.getProjetos_comprados() : 0);
+        this.save();
     }
     findByCpf(cpf) {
         return this.clientesDB.find(c => c.getCpf() === cpf);
@@ -147,9 +123,9 @@ class Database {
         if (!c)
             return undefined;
         return {
-            name: c.getName ? c.getName() : c.name,
-            email: c.getEmail ? c.getEmail() : c.email,
-            telefone: c.getTelefone ? c.getTelefone() : 0,
+            name: c.getName(),
+            email: c.getEmail(),
+            telefone: c.getTelefone(),
             cpf: c.getCpf(),
             projetos_comprados: c.getProjetos_comprados ? c.getProjetos_comprados() : 0,
             totalCompras: c.totalCompras || 0,
@@ -158,58 +134,45 @@ class Database {
     }
     updateClientByCpf(updated) {
         const idx = this.clientesDB.findIndex(c => c.getCpf() === updated.cpf);
-        if (idx >= 0) {
-            const c = this.clientesDB[idx];
-            // segurança: checar se c existe mesmo (TS)
-            if (!c) {
-                // nada a atualizar, garantia de segurança
-                return;
-            }
-            if (typeof updated.name === "string")
-                c.setName(updated.name);
-            if (typeof updated.email === "string")
-                c.setEmail(updated.email);
-            if (typeof updated.telefone === "number")
-                c.setTelefone(updated.telefone);
-            if (typeof updated.projetos_comprados === "number")
-                c.setProjetos_comprados(updated.projetos_comprados);
-            // sincronizar totalCompras/recompensasPendentes se fornecidos
-            if (typeof updated.totalCompras === "number")
-                c.totalCompras = updated.totalCompras;
-            if (typeof updated.recompensasPendentes === "number")
-                c.recompensasPendentes = updated.recompensasPendentes;
-            this.save();
-        }
-        else {
-            // se não existe, inserir
+        if (idx < 0) {
+            // insert
             const novo = new Client_1.default(updated.name || "sem-nome", updated.email || "sem-email", updated.cpf, updated.telefone || 0, updated.projetos_comprados || 0, updated.recompensasPendentes || 0);
             this.insertNewCliente(novo);
+            return;
         }
-    }
-    getAll() {
-        return this.getAllClientes();
+        const c = this.clientesDB[idx];
+        if (!c)
+            return;
+        if (typeof updated.name === "string")
+            c.setName(updated.name);
+        if (typeof updated.email === "string")
+            c.setEmail(updated.email);
+        if (typeof updated.telefone === "number")
+            c.setTelefone(updated.telefone);
+        if (typeof updated.projetos_comprados === "number")
+            c.setProjetos_comprados(updated.projetos_comprados);
+        if (typeof updated.totalCompras === "number")
+            c.totalCompras = updated.totalCompras;
+        if (typeof updated.recompensasPendentes === "number")
+            c.recompensasPendentes = updated.recompensasPendentes;
+        this.save();
     }
     getAllClientes() {
         return this.clientesDB.slice();
     }
-    // ---------- Projeto methods ----------
     insertNewProjeto(projeto) {
         this.projetosDB.push(projeto);
         this.save();
-        console.log(`Projeto ${projeto.getName()} inserido no banco.`);
     }
     getAllProjetos() {
         return this.projetosDB.slice();
     }
-    // busca por nome
     buscarClientesPorNome(nome) {
         return this.clientesDB.filter(c => c.getName().toLowerCase().includes(nome.toLowerCase()));
     }
-    // ordenação por preco
     getProjetosSortedByPreco(desc = false) {
         return this.projetosDB.slice().sort((a, b) => (desc ? b.getPreco() - a.getPreco() : a.getPreco() - b.getPreco()));
     }
-    // ---------- Compras / Recompensas ----------
     addCompra(compra) {
         const newId = this.comprasDB.length ? Math.max(...this.comprasDB.map(c => c.id)) + 1 : 1;
         const record = {
@@ -232,9 +195,7 @@ class Database {
             throw new Error("Cliente não encontrado");
         if ((cliente.recompensasPendentes || 0) <= 0)
             throw new Error("Nenhuma recompensa pendente");
-        // decrementar
         cliente.recompensasPendentes -= 1;
-        // adicionar compra do tipo reward ao histórico
         this.addCompra({ clienteCpf, projetoId: 0, data: new Date().toISOString(), isReward: true });
         this.save();
         return cliente;

@@ -13,7 +13,6 @@ export default class Video {
     this.tipo = tipo;
   }
 
-  // Getters e Setters
   public getName(): string {
     return this.name;
   }

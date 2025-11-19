@@ -1,4 +1,3 @@
-// src/control/MainController.ts
 import Client from "../model/Client";
 import Projeto from "../model/Project";
 import Editor from "../model/Editor";
@@ -17,41 +16,28 @@ export default class MainController {
     new MainScreen(this);
   }
 
-  /**
-   * Agora processarCompra espera o CPF do cliente (digitado pelo usuário).
-   * Fluxo:
-   *  - valida entrada
-   *  - procura cliente por CPF (não cria automaticamente)
-   *  - se não existir, instrui para cadastrar primeiro
-   *  - cria projeto associado ao cliente e registra compra
-   */
   public processarCompra(clienteCpf: number, projectName: string, projectPrice: number): void {
     try {
       if (!clienteCpf || isNaN(clienteCpf)) throw new AppError("CPF do cliente é obrigatório e deve ser numérico", 400);
       if (!projectName || projectName.trim().length === 0) throw new AppError("Nome do projeto é obrigatório", 400);
       if (isNaN(projectPrice) || projectPrice < 0) throw new AppError("Preço do projeto inválido", 400);
 
-      // buscar cliente existente pelo CPF - NÃO criar cliente novo aqui
       const cliente = this.database.findClienteByCpf(clienteCpf);
       if (!cliente) {
         console.log(`Cliente com CPF ${clienteCpf} não encontrado. Cadastre o cliente primeiro em 'Gerenciar Clientes'.`);
         return;
       }
 
-      // Cria editor fictício (pode ser substituído por um real)
       const editor = new Editor("Editor Padrão", "editor@example.com", "VFX");
 
-      // Cria projeto com ID incremental baseado no DB
       const idProjeto = this.database.getAllProjetos().length + 1;
       const newProjeto = new Projeto(idProjeto, projectName, cliente, editor, projectPrice);
 
-      // Registra a compra via service (síncrono, compatível com seu teste)
       this.compraService.registrarCompra(cliente, newProjeto);
 
-      // Notificar se ganhou recompensa (campo criado no Client durante registrarCompra)
       const totalCompras = (cliente as any).totalCompras || (cliente.getProjetos_comprados ? cliente.getProjetos_comprados() : 0);
       if (totalCompras % 5 === 0 && totalCompras > 0) {
-        console.log(`Cliente ${cliente.getCpf()} acabou de ganhar 1 recompensa! Recompensas pendentes: ${(cliente as any).recompensasPendentes || 0}`);
+        console.log(`Cliente ${cliente.getCpf()} ganhou uma recompensa! Recompensas pendentes: ${(cliente as any).recompensasPendentes || 0}`);
       }
     } catch (err) {
       if (err instanceof AppError) {
@@ -59,18 +45,6 @@ export default class MainController {
       } else {
         console.error("Erro inesperado em processarCompra:", err);
       }
-    }
-  }
-
-  public viewSavedProjects(): void {
-    const projetos = this.database.getAllProjetos();
-    console.log("\n--- Projetos Salvos ---");
-    if (projetos.length === 0) {
-      console.log("Nenhum projeto foi salvo ainda.");
-    } else {
-      projetos.forEach(proj => {
-        console.log(`ID: ${proj.getId()}, Nome: ${proj.getName()}, Preço: R$${proj.getPreco()}`);
-      });
     }
   }
 
@@ -98,15 +72,11 @@ export default class MainController {
     }
   }
 
-  // --- Novas ações para recompensa e categorias (compatíveis com CPF-based workflow) ---
-  // agora retorna a lista para uso por Views/Tests
-  public async listarClientesComRecompensa(): Promise<Client[]> {
-    const clientes = this.database.getClientesComRecompensa();
-    return clientes;
+  public listarClientesComRecompensa(): Client[] {
+    return this.database.getClientesComRecompensa();
   }
 
-  // agora retorna o cliente atualizado para uso por Views/Tests
-  public async marcarRecompensaComoUsada(clienteCpf: number): Promise<Client | undefined> {
+  public marcarRecompensaComoUsada(clienteCpf: number): Client | undefined {
     try {
       const clienteAtualizado = this.compraService.usarRecompensaPorCpf(clienteCpf);
       return clienteAtualizado;
@@ -119,5 +89,9 @@ export default class MainController {
   public adicionarCategoria(nome: string): void {
     this.database.addCategory(nome);
     console.log(`Categoria "${nome}" adicionada.`);
+  }
+
+  public findClientByCpf(cpf: number): Client | undefined {
+    return this.database.findClienteByCpf(cpf);
   }
 }

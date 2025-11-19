@@ -19,7 +19,6 @@ class Projeto {
         this.editor = editor;
         this.preco = preco;
     }
-    // Getters e Setters
     getId() {
         return this.id;
     }

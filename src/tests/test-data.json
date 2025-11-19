@@ -1,0 +1,99 @@
+{
+  "categories": [
+    "Edição Simples",
+    "Trailers",
+    "Motion Graphics",
+    "Legendagem",
+    "Reels / Shorts"
+  ],
+  "clientes": [
+    {
+      "name": "Teste",
+      "email": "t@t.com",
+      "telefone": 0,
+      "cpf": 12345678900,
+      "projetos_comprados": 5,
+      "totalCompras": 5,
+      "recompensasPendentes": 1
+    }
+  ],
+  "projetos": [
+    {
+      "id": 1,
+      "name": "P0",
+      "clientCpf": 12345678900,
+      "editorName": "E",
+      "preco": 50,
+      "ehRecompensa": false
+    },
+    {
+      "id": 2,
+      "name": "P1",
+      "clientCpf": 12345678900,
+      "editorName": "E",
+      "preco": 50,
+      "ehRecompensa": false
+    },
+    {
+      "id": 3,
+      "name": "P2",
+      "clientCpf": 12345678900,
+      "editorName": "E",
+      "preco": 50,
+      "ehRecompensa": false
+    },
+    {
+      "id": 4,
+      "name": "P3",
+      "clientCpf": 12345678900,
+      "editorName": "E",
+      "preco": 50,
+      "ehRecompensa": false
+    },
+    {
+      "id": 5,
+      "name": "P4",
+      "clientCpf": 12345678900,
+      "editorName": "E",
+      "preco": 50,
+      "ehRecompensa": false
+    }
+  ],
+  "compras": [
+    {
+      "id": 1,
+      "clienteCpf": 12345678900,
+      "projetoId": 1,
+      "data": "2025-11-19T02:21:33.180Z",
+      "isReward": false
+    },
+    {
+      "id": 2,
+      "clienteCpf": 12345678900,
+      "projetoId": 2,
+      "data": "2025-11-19T02:21:33.182Z",
+      "isReward": false
+    },
+    {
+      "id": 3,
+      "clienteCpf": 12345678900,
+      "projetoId": 3,
+      "data": "2025-11-19T02:21:33.182Z",
+      "isReward": false
+    },
+    {
+      "id": 4,
+      "clienteCpf": 12345678900,
+      "projetoId": 4,
+      "data": "2025-11-19T02:21:33.183Z",
+      "isReward": false
+    },
+    {
+      "id": 5,
+      "clienteCpf": 12345678900,
+      "projetoId": 5,
+      "data": "2025-11-19T02:21:33.184Z",
+      "isReward": false
+    }
+  ]
+}

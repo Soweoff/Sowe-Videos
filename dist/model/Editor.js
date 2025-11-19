@@ -17,7 +17,7 @@ class Editor extends Person_1.default {
         this.expertise = expertise;
     }
     showInfo() {
-        console.log(`Editor: ${this.name}, Especialidade: ${this.expertise}, Email: ${this.email}`);
+        console.log(`Editor: ${this.getName()}, Especialidade: ${this.expertise}, Email: ${this.getEmail()}`);
     }
 }
 exports.default = Editor;
